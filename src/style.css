@@ -1,0 +1,52 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.container{
+    display: grid;
+    grid-template-columns: 10% 90%;
+    grid-template-rows: 7% 93%;
+    height: 100vh;
+}
+
+.navbar{
+    grid-column: 1/-1;
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+#menuBtn{
+    margin: 1rem;
+}
+#search{
+    margin-right: auto;
+    width: 450px;
+}
+#add{
+    margin: 1rem;
+}
+
+.projectContainer{
+    background-color: red;
+    text-align: center;
+    margin: 0;
+}
+.projectMenu{
+    background-color: red;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+.projectItem{
+    margin-bottom: 1rem;
+}
+
+.todoContainer{
+    background-color: lightblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
