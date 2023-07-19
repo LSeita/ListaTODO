@@ -5,7 +5,7 @@ body{
 
 .container{
     display: grid;
-    grid-template-columns: 10% 90%;
+    grid-template-columns: 20% 80%;
     grid-template-rows: 7% 93%;
     height: 100vh;
 }
