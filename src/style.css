@@ -20,12 +20,8 @@ body{
 #menuBtn{
     margin: 1rem;
 }
-#search{
+#navTitle{
     margin-right: auto;
-    width: 450px;
-}
-#add{
-    margin: 1rem;
 }
 
 .projectContainer{

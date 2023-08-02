@@ -6,28 +6,39 @@ const projectController = (() => {
     const addProject = (title) => {
         const newProject = createProject(title);
         projectList.push(newProject);
-
-        return newProject;
     }
     const listProjects = () => projectList;
-    const removeProject = (proj) => {
-        const projIndex = projectList.findIndex(listProj => listProj.name === proj.name)
+    const removeProject = function(proj){
+            const projIndex = projectList.findIndex(listProj => {
+            return listProj === proj
+        })
         projectList.splice(projIndex, 1)
     }
     return {addProject, listProjects, removeProject}
 })();
 
-const proj1 = projectController.addProject("Projeto 1");
-proj1.addTodo("Estudar para prova de matematica",
+projectController.addProject("Projeto 1");
+projectController.addProject("Projeto 2");
+projectController.addProject("Projeto 3");
+
+const project = projectController.listProjects();
+
+project[0].addTodo("Estudar para prova de matematica",
               "Materias que vão cair:\nTrigonometria\nCalculo",
               "24/07/23",
               "high",
               "Pode levar calculadora e terá consulta");
-proj1.addTodo("Tarefa 3", "Desc 3", "26/07/23", "low", "");
+project[0].addTodo("Tarefa 3", "Desc 3", "26/07/23", "low", "");
 
-const proj2 = projectController.addProject("Projeto 2");
-proj2.addTodo("Tarefa 2",
+project[1].addTodo("Tarefa 2",
 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", "25/07/23", "low", "Duuur");  
+
+const todoController = (() => {
+    function removeTodo(project, todo){
+        project.removeTodo(todo);
+    }
+    return {removeTodo}
+})();
 
 const DOMController = (() => {
     const projectMenu = document.getElementsByClassName('projectMenu')[0];
@@ -35,21 +46,21 @@ const DOMController = (() => {
     const projects = projectController.listProjects()
 
     projects.forEach(function(project){
-        const span = document.createElement('span');
-        span.classList.add('projectItem');
-        span.textContent = `${project.name}`;
-        span.addEventListener('click', () => {
+        const btn = document.createElement('button');
+        btn.classList.add('projectItem');
+        btn.textContent = `${project.getName()}`;
+        btn.addEventListener('click', () => {
             clearTodos();
             displayTodos(project);
         })
-        projectMenu.appendChild(span);
+        projectMenu.appendChild(btn);
     })
     function displayTodos(project){
         const projectDiv = document.createElement('div');
         projectDiv.setAttribute('id', 'projectDiv');
 
         const projectSpan = document.createElement('span');
-        projectSpan.textContent = project.name;
+        projectSpan.textContent = project.getName();
         projectSpan.setAttribute('id', 'projectName');
 
         const addTodoBtn = document.createElement('button');
@@ -78,7 +89,13 @@ const DOMController = (() => {
             dateSpan.textContent = todo.date;
             removeBtn.classList.add('removeBtn');
             removeBtn.textContent = 'X';
-            removeBtn.addEventListener('click', () => confirm(`Tem certeza que quer remover a tarefa: "${todo.title}"?`)) 
+            removeBtn.addEventListener('click', () =>{
+                if(confirm(`Tem certeza que quer remover a tarefa: "${todo.title}"?`)){
+                    todoController.removeTodo(project, todo);
+                    clearTodos();
+                    displayTodos(project); 
+                } 
+            }) 
 
             todoBtn.classList.add('todoBtn');
             todoBtn.append(prioBtn, titleSpan, dateSpan, removeBtn);

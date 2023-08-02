@@ -6,15 +6,18 @@ export const createProject = (name) => {
         const newTodo = createTodo(title, desc, date, prio, notes);
         todoList.push(newTodo);
     }
-    const removeTodo = (title) => {
-        todoList.slice(1, todoList.indexOf(title))
+    const removeTodo = (todo) => {
+        const todoIndex = todoList.findIndex(listTodo => {
+             return listTodo === todo
+        });
+        todoList.splice(todoIndex, 1);
     }
     const listTodos = () => {
-        const list = todoList;
-        return list;
+        return todoList;
     }
+    const getName = () => name;
     return{
-        name: name,
+        getName,
         addTodo,
         removeTodo,
         listTodos
