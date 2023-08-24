@@ -37,7 +37,10 @@ const todoController = (() => {
     function removeTodo(project, todo){
         project.removeTodo(todo);
     }
-    return {removeTodo}
+    function addTodo(project){
+        alert(project.getName())
+    }
+    return {removeTodo, addTodo}
 })();
 
 const DOMController = (() => {
@@ -66,6 +69,8 @@ const DOMController = (() => {
         const addTodoBtn = document.createElement('button');
         addTodoBtn.setAttribute('id', 'addTodoBtn');
         addTodoBtn.textContent = '+';
+        addTodoBtn.addEventListener('click', () => createTodoForm(project));
+
 
         projectDiv.appendChild(projectSpan);
         projectDiv.appendChild(addTodoBtn);
@@ -101,7 +106,7 @@ const DOMController = (() => {
             todoBtn.append(prioBtn, titleSpan, dateSpan, removeBtn);
             todoContainer.appendChild(todoBtn);
 
-            //Creates de collapsed TODO
+            //Creates the collapsed TODO
             const divTODO = document.createElement('div');
             const descDiv = document.createElement('div');
             const notesDiv = document.createElement('div');
@@ -138,6 +143,10 @@ const DOMController = (() => {
                 }
             })
         })
+    }
+    function createTodoForm(project){
+        const addContainer = document.getElementById('addTodoContainer');
+        
     }
     function clearTodos(){
         while(todoContainer.firstChild){

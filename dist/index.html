@@ -19,6 +19,26 @@
         </div>
         <div class="todoContainer">
         </div>
+        <div id="addTodoContainer">
+            <div id="addTodoContent">
+                <span id="projectFormTitle"></span>
+                <form action="" id="addForm">
+                    <input type="text" name="todoTitle" id="todoTitle" placeholder="Nome da tarefa">
+                    <input type="text" name="todoDesc" id="todoDesc" placeholder="Descrição">
+                    <div id="idBtns">
+                        <input type="date" name="todoDate" id="todoDate">
+                        <select name="todoPrio" id="todoPrio">
+                            <option value="" disabled selected>Prioridade</option>
+                            <option value="alta">Alta</option>
+                            <option value="media">Média</option>
+                            <option value="baixa">Baixa</option>
+                        </select>
+                        <button id="cancelBtn">Cancelar</button>
+                        <button type="submit" id="addBtn">Adicionar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>
