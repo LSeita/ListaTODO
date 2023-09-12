@@ -2,8 +2,8 @@ import { createTodo } from "./todo";
 
 export const createProject = (name) => {
     let todoList = []
-    const addTodo = (title, desc, date, prio, notes) => {
-        const newTodo = createTodo(title, desc, date, prio, notes);
+    const addTodo = (title, desc, date, prio) => {
+        const newTodo = createTodo(title, desc, date, prio);
         todoList.push(newTodo);
     }
     const removeTodo = (todo) => {

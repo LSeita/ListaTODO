@@ -26,19 +26,23 @@ const project = projectController.listProjects();
 project[0].addTodo("Estudar para prova de matematica",
               "Materias que vão cair:\nTrigonometria\nCalculo",
               "24/07/23",
-              "high",
-              "Pode levar calculadora e terá consulta");
-project[0].addTodo("Tarefa 3", "Desc 3", "26/07/23", "low", "");
+              "high");
+project[0].addTodo("Tarefa 3", "Desc 3", "26/07/23", "low");
 
 project[1].addTodo("Tarefa 2",
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", "25/07/23", "low", "Duuur");  
+"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", "25/07/23", "low");  
 
 const todoController = (() => {
     function removeTodo(project, todo){
         project.removeTodo(todo);
     }
     function addTodo(project){
-        alert(project.getName())
+        const todoTitle = document.getElementById('todoTitle').value;
+        const todoDesc = document.getElementById('todoDesc').value;
+        const todoDate = document.getElementById('todoDate').value;
+        const todoPrio = document.getElementById('todoPrio').value;
+
+        project.addTodo(todoTitle, todoDesc, todoDate, todoPrio);
     }
     return {removeTodo, addTodo}
 })();
@@ -69,7 +73,7 @@ const DOMController = (() => {
         const addTodoBtn = document.createElement('button');
         addTodoBtn.setAttribute('id', 'addTodoBtn');
         addTodoBtn.textContent = '+';
-        addTodoBtn.addEventListener('click', () => createTodoForm(project));
+        addTodoBtn.addEventListener('click', () => displayTodoForm(project));
 
 
         projectDiv.appendChild(projectSpan);
@@ -109,7 +113,6 @@ const DOMController = (() => {
             //Creates the collapsed TODO
             const divTODO = document.createElement('div');
             const descDiv = document.createElement('div');
-            const notesDiv = document.createElement('div');
 
             divTODO.classList.add('todoCollapsible');
 
@@ -122,17 +125,7 @@ const DOMController = (() => {
             descDiv.appendChild(descTitleSpan);
             descDiv.appendChild(descSpan);
 
-            notesDiv.classList.add('todoContent');
-            const notesTitleSpan = document.createElement('span');
-            notesTitleSpan.textContent = 'Notas:';
-            notesTitleSpan.classList.add('contentTitle');
-            const notesSpan = document.createElement('span');
-            notesSpan.textContent = todo.notes;
-            notesDiv.appendChild(notesTitleSpan);
-            notesDiv.appendChild(notesSpan);
-
             divTODO.appendChild(descDiv);
-            divTODO.appendChild(notesDiv);
             todoContainer.appendChild(divTODO); 
 
             todoBtn.addEventListener('click', () => {
@@ -144,8 +137,23 @@ const DOMController = (() => {
             })
         })
     }
-    function createTodoForm(project){
+    function displayTodoForm(project){
         const addContainer = document.getElementById('addTodoContainer');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const addBtn = document.getElementById('addBtn');
+
+        addContainer.style.display = 'block';
+        cancelBtn.onclick = (event) => {
+            addContainer.style.display = 'none';
+            event.preventDefault();
+        }
+        addBtn.onclick = (event) => {
+            todoController.addTodo(project)
+            addContainer.style.display = 'none';
+            clearTodos()
+            displayTodos(project);
+            event.preventDefault();
+        }
         
     }
     function clearTodos(){
