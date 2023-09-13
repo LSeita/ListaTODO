@@ -12,6 +12,12 @@ export const createProject = (name) => {
         });
         todoList.splice(todoIndex, 1);
     }
+    const editTodo = (todo, title, desc, date, prio) => {
+        todo.title = title;
+        todo.desc = desc;
+        todo.date = date;
+        todo.prio = prio;
+    }
     const listTodos = () => {
         return todoList;
     }
@@ -20,6 +26,7 @@ export const createProject = (name) => {
         getName,
         addTodo,
         removeTodo,
+        editTodo,
         listTodos
     }
 }

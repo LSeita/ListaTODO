@@ -1,10 +1,9 @@
-export const createTodo = (title, desc, date, prio, notes) => {
+export const createTodo = (title, desc, date, prio) => {
     return {
         title: title,
         desc: desc,
         date: date,
-        prio: prio,
-        notes: notes
+        prio: prio
     }
 }
 

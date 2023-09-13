@@ -147,6 +147,9 @@ body{
  #idBtns > * {
     margin-left: 10px;
  }
+ #confEditBtn{
+    display: none;
+ }
  #todoTitle, #todoDesc{
     padding: 5px;
  }
