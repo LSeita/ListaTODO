@@ -17,21 +17,6 @@ const projectController = (() => {
     return {addProject, listProjects, removeProject}
 })();
 
-projectController.addProject("Projeto 1");
-projectController.addProject("Projeto 2");
-projectController.addProject("Projeto 3");
-
-const project = projectController.listProjects();
-
-project[0].addTodo("Estudar para prova de matematica",
-              "Materias que vão cair:\nTrigonometria\nCalculo",
-              "24/07/23",
-              "high");
-project[0].addTodo("Tarefa 3", "Desc 3", "26/07/23", "low");
-
-project[1].addTodo("Tarefa 2",
-"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", "25/07/23", "low");  
-
 const todoController = (() => {
     const todoTitle = document.getElementById('todoTitle');
     const todoDesc = document.getElementById('todoDesc');
@@ -61,18 +46,28 @@ const todoController = (() => {
 const DOMController = (() => {
     const projectMenu = document.getElementsByClassName('projectMenu')[0];
     const todoContainer = document.getElementsByClassName('todoContainer')[0];
-    const projects = projectController.listProjects()
+    const projects = projectController.listProjects();
+    const addProjBtn = document.getElementById('addProjBtn');
+    
+    addProjBtn.onclick = () => displayProjForm();
 
-    projects.forEach(function(project){
+    projects.forEach(listProjects);
+    function listProjects(project){
         const btn = document.createElement('button');
+        const rmProjBtn = document.createElement('button');
+
         btn.classList.add('projectItem');
         btn.textContent = `${project.getName()}`;
+        rmProjBtn.classList.add('removeBtn');
+        rmProjBtn.textContent = 'X';
+
         btn.addEventListener('click', () => {
             clearTodos();
             displayTodos(project);
         })
+        btn.append(rmProjBtn);
         projectMenu.appendChild(btn);
-    })
+    }
     function displayTodos(project){
         const projectDiv = document.createElement('div');
         projectDiv.setAttribute('id', 'projectDiv');
@@ -172,7 +167,9 @@ const DOMController = (() => {
         const cancelBtn = document.getElementById('cancelBtn');
         const addBtn = document.getElementById('addBtn');
         const confEditBtn = document.getElementById('confEditBtn');
+        const projTitle = document.getElementById('projectFormTitle');
 
+        projTitle.textContent = `${project.getName()}`
         addContainer.style.display = 'block';
         if(btn === 'editBtn'){
             confEditBtn.style.display = 'block';
@@ -203,6 +200,31 @@ const DOMController = (() => {
     function clearTodos(){
         while(todoContainer.firstChild){
             todoContainer.removeChild(todoContainer.lastChild)
+        }
+    }
+    function displayProjForm(){
+        const projContainer = document.getElementById('addProjectContainer');
+        const cancelBtn = document.getElementById('cancelProjBtn');
+        const addBtn = document.getElementById('newProjBtn');
+        const projTitle = document.getElementById('projTitle');
+        
+        projContainer.style.display = 'block';
+        addBtn.onclick = (event) => {
+            projectController.addProject(projTitle.value);
+            projContainer.style.display = 'none';
+            clearProjects()
+            projects.forEach(listProjects)
+            event.preventDefault();
+        }
+        cancelBtn.onclick = (event) => {
+            projContainer.style.display = 'none';
+            event.preventDefault();
+        }
+    }
+    function clearProjects(){
+        const projMenu = document.getElementsByClassName('projectMenu')[0];
+        while(projMenu.firstChild){
+            projMenu.removeChild(projMenu.lastChild)
         }
     }
 })();   
