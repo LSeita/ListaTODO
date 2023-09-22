@@ -4,6 +4,7 @@ body{
     margin: 0;
     padding: 0;
     font-family: 'Roboto', sans-serif;
+    overflow-x: hidden;
 }
 
 .container{
@@ -11,6 +12,7 @@ body{
     grid-template-columns: 20% 80%;
     grid-template-rows: 10% 90%;
     height: 100vh;
+    max-width: 100%;
 }
 
 .navbar{
@@ -39,6 +41,9 @@ body{
     text-align: center;
     margin: 0;
     z-index: 2;
+    color: #F1FAEE;
+    background-color: #e93846;
+    border-top: 1px solid #e93846;
 }
 #projectHeader{
     display: flex;
@@ -80,12 +85,19 @@ body{
     display: flex;
     font-size: 18px;
     align-items: center;
+    background-color: #e93846;
+    color: #F1FAEE;
+    margin-top: 5px;
+    border-top: 2px solid #e93846;
 }
 #projectDiv{
     display: flex;
     width: 100%;
     align-items: center;
-    font-weight: 300;
+    font-weight: 700;
+    color: #e93846;
+    background-color: #F1FAEE;
+    border-top: 3px solid #e93846;
 }
 
 #addTodoBtn{
@@ -105,7 +117,9 @@ body{
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;
-    background-color: rgba(160, 166, 168, 0.848);
+    background-color: #F1FAEE;
+    border: 1px solid #e93846;
+    color: #e93846;
 }       
 .contentTitle{
     text-align: center;
@@ -124,8 +138,7 @@ body{
     margin-right: 20px;
 }
 .todoTitle{
-    margin-left: 0.2rem;
-    background-color: green;    
+    margin-left: 0.2rem;    
     width: 85%;
 }
 .todoDate{
@@ -135,7 +148,8 @@ body{
 .removeBtn{
     border: none;
     font-size: 25px;
-    color: red;
+    background-color: #e93846;
+    color: #F1FAEE;
 }
 .prio{
     font-size: 25px;
@@ -162,6 +176,7 @@ body{
     overflow: auto;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4); 
+    max-width: 100%;
  }
  #addTodoContent{
     background-color: magenta;
@@ -202,6 +217,7 @@ body{
     overflow: auto;
     background-color: rgb(0,0,0);
     background-color: rgba(0,0,0,0.4); 
+    max-width: 100%;
  }
  #addProjectContent{
     background-color: magenta;

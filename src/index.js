@@ -18,7 +18,9 @@ const projectController = (() => {
     return {addProject, listProjects, removeProject}
 })();
 
+const debug = projectController.listProjects();
 projectController.addProject('Meu Projeto');
+debug[0].addTodo('Adicionar mais svgs no site', 'E decidir logo um esquema de cores', '22/09/23', 'high');
 
 const todoController = (() => {
     const todoTitle = document.getElementById('todoTitle');
