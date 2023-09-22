@@ -53,15 +53,16 @@ const DOMController = (() => {
 
     projects.forEach(listProjects);
     function listProjects(project){
-        const btn = document.createElement('button');
+        const projDiv = document.createElement('div');
+        const projSpan = document.createElement('span')
         const rmProjBtn = document.createElement('button');
 
-        btn.classList.add('projectItem');
-        btn.textContent = `${project.getName()}`;
+        projDiv.classList.add('projectItem');
+        projSpan.textContent = `${project.getName()}`;
         rmProjBtn.classList.add('removeBtn');
         rmProjBtn.textContent = 'X';
 
-        btn.addEventListener('click', () => {
+        projSpan.addEventListener('click', () => {
             clearTodos();
             displayTodos(project);
         })
@@ -73,8 +74,9 @@ const DOMController = (() => {
                 projects.forEach(listProjects);
             }
         })
-        btn.append(rmProjBtn);
-        projectMenu.appendChild(btn);
+        projDiv.appendChild(projSpan);
+        projDiv.appendChild(rmProjBtn);
+        projectMenu.appendChild(projDiv);
     }
     function displayTodos(project){
         const projectDiv = document.createElement('div');

@@ -111,7 +111,9 @@ body{
     margin-left: 10px;
 }
 .todoTitle{
-    margin-left: 0.2rem;    
+    margin-left: 0.2rem;
+    background-color: green;    
+    width: 85%;
 }
 .todoDate{
     margin-left: auto;
