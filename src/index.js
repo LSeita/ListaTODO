@@ -65,6 +65,14 @@ const DOMController = (() => {
             clearTodos();
             displayTodos(project);
         })
+        rmProjBtn.addEventListener('click', () => {
+            if(confirm(`Tem certeza que quer remover o projeto "${project.getName()}"?`)){
+                projectController.removeProject(project);
+                clearProjects();
+                clearTodos();
+                projects.forEach(listProjects);
+            }
+        })
         btn.append(rmProjBtn);
         projectMenu.appendChild(btn);
     }
@@ -89,6 +97,7 @@ const DOMController = (() => {
         const todoList = project.listTodos();
         todoList.forEach(function(todo){
             //Creates the button that collapses the TODO
+            const todoDiv = document.createElement('div');
             const todoBtn = document.createElement('button');
             const prioBtn = document.createElement('button');
             const titleSpan = document.createElement('span');
@@ -112,9 +121,12 @@ const DOMController = (() => {
                 } 
             }) 
 
-            todoBtn.classList.add('todoBtn');
-            todoBtn.append(prioBtn, titleSpan, dateSpan, removeBtn);
-            todoContainer.appendChild(todoBtn);
+            todoDiv.classList.add('todoBtn');
+            todoDiv.appendChild(prioBtn);
+            todoDiv.appendChild(titleSpan);
+            todoDiv.appendChild(dateSpan);
+            todoDiv.appendChild(removeBtn);
+            todoContainer.appendChild(todoDiv);
 
             //Creates the collapsed TODO
             const divTODO = document.createElement('div');
@@ -153,7 +165,7 @@ const DOMController = (() => {
             divTODO.appendChild(descDiv);
             todoContainer.appendChild(divTODO); 
 
-            todoBtn.addEventListener('click', () => {
+            titleSpan.addEventListener('click', () => {
                 if(divTODO.style.maxHeight){
                     divTODO.style.maxHeight = null;
                 }else{
