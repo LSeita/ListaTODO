@@ -1,5 +1,6 @@
 import './style.css';
 import { createProject } from './project';
+import logoIcon from './logoIcon.svg';
 
 const projectController = (() => {
     const projectList = [];
@@ -16,6 +17,8 @@ const projectController = (() => {
     }
     return {addProject, listProjects, removeProject}
 })();
+
+projectController.addProject('Meu Projeto');
 
 const todoController = (() => {
     const todoTitle = document.getElementById('todoTitle');
@@ -48,7 +51,13 @@ const DOMController = (() => {
     const todoContainer = document.getElementsByClassName('todoContainer')[0];
     const projects = projectController.listProjects();
     const addProjBtn = document.getElementById('addProjBtn');
+    const logo = new Image();
+    logo.setAttribute('id', 'logoIcon');
+    logo.src = logoIcon;
     
+    const navbar = document.getElementsByClassName('navbar')[0];
+    navbar.insertBefore(logo, navbar.firstChild)
+
     addProjBtn.onclick = () => displayProjForm();
 
     projects.forEach(listProjects);
@@ -81,7 +90,7 @@ const DOMController = (() => {
     function displayTodos(project){
         const projectDiv = document.createElement('div');
         projectDiv.setAttribute('id', 'projectDiv');
-
+   
         const projectSpan = document.createElement('span');
         projectSpan.textContent = project.getName();
         projectSpan.setAttribute('id', 'projectName');
@@ -100,7 +109,6 @@ const DOMController = (() => {
         todoList.forEach(function(todo){
             //Creates the button that collapses the TODO
             const todoDiv = document.createElement('div');
-            const todoBtn = document.createElement('button');
             const prioBtn = document.createElement('button');
             const titleSpan = document.createElement('span');
             const dateSpan = document.createElement('span');
@@ -123,7 +131,7 @@ const DOMController = (() => {
                 } 
             }) 
 
-            todoDiv.classList.add('todoBtn');
+            todoDiv.classList.add('todoDiv');
             todoDiv.appendChild(prioBtn);
             todoDiv.appendChild(titleSpan);
             todoDiv.appendChild(dateSpan);
