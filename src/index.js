@@ -1,6 +1,6 @@
 import './style.css';
 import { createProject } from './project';
-import logoIcon from './logoIcon.svg';
+import { imageLoader} from './imageLoader';
 
 const projectController = (() => {
     const projectList = [];
@@ -21,6 +21,8 @@ const projectController = (() => {
 const debug = projectController.listProjects();
 projectController.addProject('Meu Projeto');
 debug[0].addTodo('Adicionar mais svgs no site', 'E decidir logo um esquema de cores', '22/09/23', 'high');
+debug[0].addTodo('Tarefa media', 'osakdjfsokdfj','20/30/40', 'med');
+debug[0].addTodo('Tarefa baixa', 'osakdjfsokdfj','40/20/10', 'low');
 
 const todoController = (() => {
     const todoTitle = document.getElementById('todoTitle');
@@ -52,13 +54,19 @@ const DOMController = (() => {
     const projectMenu = document.getElementsByClassName('projectMenu')[0];
     const todoContainer = document.getElementsByClassName('todoContainer')[0];
     const projects = projectController.listProjects();
-    const addProjBtn = document.getElementById('addProjBtn');
+    const projectHeader = document.getElementById('projectHeader');
+    const loadImage = imageLoader();
     const logo = new Image();
     logo.setAttribute('id', 'logoIcon');
-    logo.src = logoIcon;
+    logo.src = loadImage.LogoIcon();
+    const addProjBtn = new Image();
+    addProjBtn.classList.add('svgIconWhite');
+    addProjBtn.src = loadImage.FolderIcon();
+
+    projectHeader.appendChild(addProjBtn);
     
     const navbar = document.getElementsByClassName('navbar')[0];
-    navbar.insertBefore(logo, navbar.firstChild)
+    navbar.insertBefore(logo, navbar.firstChild);
 
     addProjBtn.onclick = () => displayProjForm();
 
@@ -92,14 +100,15 @@ const DOMController = (() => {
     function displayTodos(project){
         const projectDiv = document.createElement('div');
         projectDiv.setAttribute('id', 'projectDiv');
+        projectDiv.classList.add('dynamicColor');
    
         const projectSpan = document.createElement('span');
         projectSpan.textContent = project.getName();
         projectSpan.setAttribute('id', 'projectName');
 
-        const addTodoBtn = document.createElement('button');
-        addTodoBtn.setAttribute('id', 'addTodoBtn');
-        addTodoBtn.textContent = '+';
+        const addTodoBtn = new Image();
+        addTodoBtn.classList.add('svgIconWhite');
+        addTodoBtn.src = loadImage.AddTaskIcon();
         addTodoBtn.addEventListener('click', (event) => displayTodoForm(project, event.target.id));
 
 
@@ -111,13 +120,13 @@ const DOMController = (() => {
         todoList.forEach(function(todo){
             //Creates the button that collapses the TODO
             const todoDiv = document.createElement('div');
-            const prioBtn = document.createElement('button');
+            const prioBtn = new Image();
+            prioBtn.src = loadImage.CheckCircle();
             const titleSpan = document.createElement('span');
             const dateSpan = document.createElement('span');
             const removeBtn = document.createElement('button');
 
-            prioBtn.classList.add('prio', `${todo.prio}`);
-            prioBtn.textContent = 'O';
+            prioBtn.classList.add('svgIconWhite');
             prioBtn.addEventListener('click', () => alert('Oi'))
             titleSpan.classList.add('todoTitle');
             titleSpan.textContent = todo.title;
@@ -134,6 +143,16 @@ const DOMController = (() => {
             }) 
 
             todoDiv.classList.add('todoDiv');
+            switch(todo.prio){
+                case 'high':
+                    todoDiv.classList.toggle('high');
+                    break;
+                case 'med':
+                    todoDiv.classList.toggle('med');
+                    break;
+                case 'low':
+                    todoDiv.classList.toggle('low');
+            }
             todoDiv.appendChild(prioBtn);
             todoDiv.appendChild(titleSpan);
             todoDiv.appendChild(dateSpan);
@@ -182,9 +201,40 @@ const DOMController = (() => {
                     divTODO.style.maxHeight = null;
                 }else{
                     divTODO.style.maxHeight =  divTODO.scrollHeight + 'px';
+                    changeBGColor(todo.prio);
                 }
             })
         })
+    }
+    function changeBGColor(prio){
+        const navbar = document.getElementsByClassName('navbar')[0];
+        const projContainer = document.getElementById('projectHeader');
+        const projTitle = document.getElementById('projectDiv');
+        const todoContainer = document.getElementsByClassName('todoContainer')[0];
+
+        switch(prio){
+            case 'high':
+                navbar.style.backgroundColor = '#e93846';
+                projContainer.style.backgroundColor = '#e93846';
+                projContainer.style.borderTop = 'border-top: 3px solid #e93846';
+                projTitle.style.backgroundColor = '#e93846';
+                projTitle.style.borderTop = 'border-top: 1px solid #e93846';
+                break;
+            case 'med':
+                navbar.style.backgroundColor = 'orangered';
+                projContainer.style.backgroundColor = 'orangered';
+                projContainer.style.borderTop = 'border-top: 1px solid orangered';
+                projTitle.style.backgroundColor = 'orangered';
+                projTitle.style.borderTop = 'border-top: 3px solid orangered';
+                break;
+            case 'low':
+                navbar.style.backgroundColor = 'green';
+                projContainer.style.backgroundColor = 'green';
+                projContainer.style.borderTop = 'border-top: 1px solid green';
+                projTitle.style.backgroundColor = 'green';
+                projTitle.style.borderTop = 'border-top: 3px solid green';
+                break;
+        }
     }
     function displayTodoForm(project, btn, todo){
         const addContainer = document.getElementById('addTodoContainer');
