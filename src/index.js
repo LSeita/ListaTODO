@@ -4,8 +4,8 @@ import { imageLoader} from './imageLoader';
 
 const projectController = (() => {
     const projectList = [];
-    const addProject = (title) => {
-        const newProject = createProject(title);
+    const addProject = (title, prio) => {
+        const newProject = createProject(title, prio);
         projectList.push(newProject);
     }
     const listProjects = () => projectList;
@@ -19,7 +19,9 @@ const projectController = (() => {
 })();
 
 const debug = projectController.listProjects();
-projectController.addProject('Meu Projeto');
+projectController.addProject('Meu Projeto', 'high');
+projectController.addProject('Projeto 2', 'med');
+projectController.addProject('Projeto 3', 'low');
 debug[0].addTodo('Adicionar mais svgs no site', 'E decidir logo um esquema de cores', '22/09/23', 'high');
 debug[0].addTodo('Tarefa media', 'osakdjfsokdfj','20/30/40', 'med');
 debug[0].addTodo('Tarefa baixa', 'osakdjfsokdfj','40/20/10', 'low');
@@ -60,7 +62,7 @@ const DOMController = (() => {
     logo.setAttribute('id', 'logoIcon');
     logo.src = loadImage.LogoIcon();
     const addProjBtn = new Image();
-    addProjBtn.classList.add('svgIconWhite');
+    addProjBtn.classList.add('svgIcon','svgIconWhite');
     addProjBtn.src = loadImage.FolderIcon();
 
     projectHeader.appendChild(addProjBtn);
@@ -74,14 +76,16 @@ const DOMController = (() => {
     function listProjects(project){
         const projDiv = document.createElement('div');
         const projSpan = document.createElement('span')
-        const rmProjBtn = document.createElement('button');
+        const rmProjBtn = new Image();
+        rmProjBtn.src = loadImage.CloseIcon();
 
-        projDiv.classList.add('projectItem');
+        projDiv.classList.add('projectItem', `${project.getPrio()}`);
         projSpan.textContent = `${project.getName()}`;
-        rmProjBtn.classList.add('removeBtn');
-        rmProjBtn.textContent = 'X';
-
+        projSpan.classList.add('projSpan');
+        rmProjBtn.classList.add('svgIcon', 'svgIconWhite');
+    
         projSpan.addEventListener('click', () => {
+            changeBGColor(project.getPrio());
             clearTodos();
             displayTodos(project);
         })
@@ -101,13 +105,24 @@ const DOMController = (() => {
         const projectDiv = document.createElement('div');
         projectDiv.setAttribute('id', 'projectDiv');
         projectDiv.classList.add('dynamicColor');
-   
+        switch(project.getPrio()){
+            case 'high':
+                projectDiv.style.backgroundColor = '#e93846';
+                break;
+            case 'med':
+                projectDiv.style.backgroundColor = '#ff4500';
+                break;
+            case 'low':
+                projectDiv.style.backgroundColor = '#008000';
+                break;
+        }
+
         const projectSpan = document.createElement('span');
         projectSpan.textContent = project.getName();
         projectSpan.setAttribute('id', 'projectName');
 
         const addTodoBtn = new Image();
-        addTodoBtn.classList.add('svgIconWhite');
+        addTodoBtn.classList.add('svgIcon','svgIconWhite');
         addTodoBtn.src = loadImage.AddTaskIcon();
         addTodoBtn.addEventListener('click', (event) => displayTodoForm(project, event.target.id));
 
@@ -124,16 +139,16 @@ const DOMController = (() => {
             prioBtn.src = loadImage.CheckCircle();
             const titleSpan = document.createElement('span');
             const dateSpan = document.createElement('span');
-            const removeBtn = document.createElement('button');
+            const removeBtn = new Image();
+            removeBtn.src = loadImage.CloseIcon();
 
-            prioBtn.classList.add('svgIconWhite');
+            prioBtn.classList.add('svgIcon');
             prioBtn.addEventListener('click', () => alert('Oi'))
             titleSpan.classList.add('todoTitle');
             titleSpan.textContent = todo.title;
             dateSpan.classList.add('todoDate');
             dateSpan.textContent = todo.date;
-            removeBtn.classList.add('removeBtn');
-            removeBtn.textContent = 'X';
+            removeBtn.classList.add('svgIcon');
             removeBtn.addEventListener('click', () =>{
                 if(confirm(`Tem certeza que quer remover a tarefa: "${todo.title}"?`)){
                     todoController.removeTodo(project, todo);
@@ -145,13 +160,17 @@ const DOMController = (() => {
             todoDiv.classList.add('todoDiv');
             switch(todo.prio){
                 case 'high':
-                    todoDiv.classList.toggle('high');
+                    /* todoDiv.classList.toggle('high'); */
+                    prioBtn.classList.add('svgIconRed');
                     break;
                 case 'med':
-                    todoDiv.classList.toggle('med');
+                    /* todoDiv.classList.toggle('med'); */
+                    prioBtn.classList.add('svgIconOrange');
                     break;
                 case 'low':
-                    todoDiv.classList.toggle('low');
+                    /* todoDiv.classList.toggle('low'); */
+                    prioBtn.classList.add('svgIconGreen');''
+                    break;
             }
             todoDiv.appendChild(prioBtn);
             todoDiv.appendChild(titleSpan);
@@ -201,7 +220,7 @@ const DOMController = (() => {
                     divTODO.style.maxHeight = null;
                 }else{
                     divTODO.style.maxHeight =  divTODO.scrollHeight + 'px';
-                    changeBGColor(todo.prio);
+                    /* changeBGColor(todo.prio); */
                 }
             })
         })
@@ -209,30 +228,26 @@ const DOMController = (() => {
     function changeBGColor(prio){
         const navbar = document.getElementsByClassName('navbar')[0];
         const projContainer = document.getElementById('projectHeader');
-        const projTitle = document.getElementById('projectDiv');
-        const todoContainer = document.getElementsByClassName('todoContainer')[0];
+        const footer = document.getElementById('footer');
 
         switch(prio){
             case 'high':
                 navbar.style.backgroundColor = '#e93846';
                 projContainer.style.backgroundColor = '#e93846';
                 projContainer.style.borderTop = 'border-top: 3px solid #e93846';
-                projTitle.style.backgroundColor = '#e93846';
-                projTitle.style.borderTop = 'border-top: 1px solid #e93846';
+                footer.style.backgroundColor = '#e93846';
                 break;
             case 'med':
                 navbar.style.backgroundColor = 'orangered';
                 projContainer.style.backgroundColor = 'orangered';
                 projContainer.style.borderTop = 'border-top: 1px solid orangered';
-                projTitle.style.backgroundColor = 'orangered';
-                projTitle.style.borderTop = 'border-top: 3px solid orangered';
+                footer.style.backgroundColor = 'orangered';
                 break;
             case 'low':
                 navbar.style.backgroundColor = 'green';
                 projContainer.style.backgroundColor = 'green';
                 projContainer.style.borderTop = 'border-top: 1px solid green';
-                projTitle.style.backgroundColor = 'green';
-                projTitle.style.borderTop = 'border-top: 3px solid green';
+                footer.style.backgroundColor = 'green';
                 break;
         }
     }
@@ -281,10 +296,11 @@ const DOMController = (() => {
         const cancelBtn = document.getElementById('cancelProjBtn');
         const addBtn = document.getElementById('newProjBtn');
         const projTitle = document.getElementById('projTitle');
+        const projPrio = document.getElementById('projPrio');
         
         projContainer.style.display = 'block';
         addBtn.onclick = (event) => {
-            projectController.addProject(projTitle.value);
+            projectController.addProject(projTitle.value, projPrio.value);
             projContainer.style.display = 'none';
             clearProjects()
             projects.forEach(listProjects)

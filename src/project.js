@@ -1,6 +1,6 @@
 import { createTodo } from "./todo";
 
-export const createProject = (name) => {
+export const createProject = (name, prio) => {
     let todoList = []
     const addTodo = (title, desc, date, prio) => {
         const newTodo = createTodo(title, desc, date, prio);
@@ -22,11 +22,13 @@ export const createProject = (name) => {
         return todoList;
     }
     const getName = () => name;
+    const getPrio = () => prio;
     return{
         getName,
         addTodo,
         removeTodo,
         editTodo,
-        listTodos
+        listTodos,
+        getPrio
     }
 }

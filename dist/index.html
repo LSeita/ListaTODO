@@ -9,11 +9,11 @@
 <body>
     <div class="container">
         <div class="navbar dynamicColor">
-            <h1 id="navTitle">LISTA DE TAREFAS</h1>
+            <span id="navTitle">LISTA DE TAREFAS</span>
         </div>
         <div class="projectContainer">
             <div id="projectHeader" class="dynamicColor">
-                <h1 id="menuTitle">Projetos</h1>
+                <span id="menuTitle">Projetos</span>
             </div>
             <div class="projectMenu">
             </div>
@@ -46,12 +46,21 @@
                 <span id="addProjSpan">Novo Projeto</span>
                 <form action="" id="addProjForm">
                     <input type="text" name="projTitle" id="projTitle" placeholder="Nome do Projeto">
+                    <select name="projPrio" id="projPrio">
+                        <option value="" disabled selected>Prioridade</option>
+                        <option value="high">Alta</option>
+                        <option value="med">Média</option>
+                        <option value="low">Baixa</option>
+                    </select>
                     <div id="projBtns">
                         <button type="submit" id="cancelProjBtn">Cancelar</button>
                         <button type="submit" id="newProjBtn">Confirmar</button>
                     </div>
                 </form>
             </div>
+        </div>
+        <div id="footer" class="dynamicColor">
+            <h1>THE ODIN PROJECT</h1>
         </div>
     </div>
 </body>
