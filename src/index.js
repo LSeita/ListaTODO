@@ -44,13 +44,19 @@ const todoController = (() => {
         project.editTodo(todo, todoTitle.value, todoDesc.value, todoDate.value, todoPrio.value)
         clearTodoForm();
     }
+    function checkAsDone(todo){
+        todo.done = true;
+    }
+    function checkAsNotDone(todo){
+        todo.done = false;
+    }
     function clearTodoForm(){
         todoTitle.value = '';
         todoDesc.value = '';
         todoDate.value ='';
         todoPrio.value = '';
     }
-    return {removeTodo, addTodo, editTodo}
+    return {removeTodo, addTodo, editTodo, checkAsDone, checkAsNotDone}
 })();
 
 const DOMController = (() => {
@@ -143,9 +149,23 @@ const DOMController = (() => {
             const removeBtn = new Image();
             removeBtn.src = loadImage.CloseIcon();
 
+            if(todo.done === true){
+                todoDiv.classList.toggle('todoDone');
+                if(prioBtn.src === loadImage.CheckCircle()){
+                    prioBtn.src = loadImage.DoneIcon();
+                }else{
+                    prioBtn.src = loadImage.CheckCircle();
+                }
+            }
+
             prioBtn.classList.add('svgIcon');
             prioBtn.addEventListener('click', () => {
                 todoDiv.classList.toggle('todoDone');
+                if(todo.done === false){
+                    todoController.checkAsDone(todo);
+                }else{
+                    todoController.checkAsNotDone(todo);
+                }
                 if(prioBtn.src === loadImage.CheckCircle()){
                     prioBtn.src = loadImage.DoneIcon();
                 }else{

@@ -3,7 +3,8 @@ export const createTodo = (title, desc, date, prio) => {
         title: title,
         desc: desc,
         date: date,
-        prio: prio
+        prio: prio,
+        done: false
     }
 }
 
