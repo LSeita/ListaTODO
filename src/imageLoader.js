@@ -1,8 +1,9 @@
 import logoIcon from './logoIcon.svg';
 import folderIcon from './folderIcon.svg';
-import addTaskIcon from './addTaskIcon.svg'
-import checkCircle from './checkCircleIcon.svg'
-import closeIcon from './closeIcon.svg'
+import addTaskIcon from './addTaskIcon.svg';
+import checkCircle from './checkCircleIcon.svg';
+import closeIcon from './closeIcon.svg';
+import doneIcon from './doneIcon.svg';
 
 export const imageLoader = () => {
     const LogoIcon = () => logoIcon
@@ -10,5 +11,6 @@ export const imageLoader = () => {
     const AddTaskIcon = () => addTaskIcon
     const CheckCircle = () => checkCircle
     const CloseIcon = () => closeIcon
-    return {LogoIcon, FolderIcon,AddTaskIcon, CheckCircle, CloseIcon}
+    const DoneIcon = () => doneIcon
+    return {LogoIcon, FolderIcon,AddTaskIcon, CheckCircle, CloseIcon, DoneIcon}
 }

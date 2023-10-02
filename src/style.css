@@ -158,6 +158,12 @@ body{
     margin-left: auto;
     margin-right: 0.5rem;
 }
+.todoDone{
+    opacity: 70%;
+}
+.todoDone>span{
+    text-decoration: line-through;
+}
 .high{
     background-color: #e93846;
 }

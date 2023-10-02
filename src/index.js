@@ -1,6 +1,7 @@
 import './style.css';
 import { createProject } from './project';
 import { imageLoader} from './imageLoader';
+import {format, parse} from 'date-fns';
 
 const projectController = (() => {
     const projectList = [];
@@ -22,9 +23,9 @@ const debug = projectController.listProjects();
 projectController.addProject('Meu Projeto', 'high');
 projectController.addProject('Projeto 2', 'med');
 projectController.addProject('Projeto 3', 'low');
-debug[0].addTodo('Adicionar mais svgs no site', 'E decidir logo um esquema de cores', '22/09/23', 'high');
-debug[0].addTodo('Tarefa media', 'osakdjfsokdfj','20/30/40', 'med');
-debug[0].addTodo('Tarefa baixa', 'osakdjfsokdfj','40/20/10', 'low');
+debug[0].addTodo('Adicionar mais svgs no site', 'E decidir logo um esquema de cores', '2023-09-22', 'high');
+debug[0].addTodo('Tarefa media', 'osakdjfsokdfj','2023-10-02', 'med');
+debug[0].addTodo('Tarefa baixa', 'osakdjfsokdfj','2023-05-15', 'low');
 
 const todoController = (() => {
     const todoTitle = document.getElementById('todoTitle');
@@ -143,11 +144,20 @@ const DOMController = (() => {
             removeBtn.src = loadImage.CloseIcon();
 
             prioBtn.classList.add('svgIcon');
-            prioBtn.addEventListener('click', () => alert('Oi'))
+            prioBtn.addEventListener('click', () => {
+                todoDiv.classList.toggle('todoDone');
+                if(prioBtn.src === loadImage.CheckCircle()){
+                    prioBtn.src = loadImage.DoneIcon();
+                }else{
+                    prioBtn.src = loadImage.CheckCircle();
+                }
+            })
             titleSpan.classList.add('todoTitle');
             titleSpan.textContent = todo.title;
             dateSpan.classList.add('todoDate');
-            dateSpan.textContent = todo.date;
+            const dateString = parse(todo.date, 'yyyy-MM-dd', new Date());
+            const date = format(dateString, 'dd/MM/yy');
+            dateSpan.textContent = date;
             removeBtn.classList.add('svgIcon');
             removeBtn.addEventListener('click', () =>{
                 if(confirm(`Tem certeza que quer remover a tarefa: "${todo.title}"?`)){
