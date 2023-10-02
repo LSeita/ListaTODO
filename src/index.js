@@ -160,16 +160,16 @@ const DOMController = (() => {
             todoDiv.classList.add('todoDiv');
             switch(todo.prio){
                 case 'high':
-                    /* todoDiv.classList.toggle('high'); */
+                    todoDiv.classList.toggle('todoHigh');
                     prioBtn.classList.add('svgIconRed');
                     break;
                 case 'med':
-                    /* todoDiv.classList.toggle('med'); */
+                    todoDiv.classList.toggle('todoMed');
                     prioBtn.classList.add('svgIconOrange');
                     break;
                 case 'low':
-                    /* todoDiv.classList.toggle('low'); */
-                    prioBtn.classList.add('svgIconGreen');''
+                    todoDiv.classList.toggle('todoLow');
+                    prioBtn.classList.add('svgIconGreen');
                     break;
             }
             todoDiv.appendChild(prioBtn);
@@ -229,6 +229,7 @@ const DOMController = (() => {
         const navbar = document.getElementsByClassName('navbar')[0];
         const projContainer = document.getElementById('projectHeader');
         const footer = document.getElementById('footer');
+        const todoContainer = document.getElementsByClassName('todoContainer')[0];
 
         switch(prio){
             case 'high':
@@ -236,6 +237,7 @@ const DOMController = (() => {
                 projContainer.style.backgroundColor = '#e93846';
                 projContainer.style.borderTop = 'border-top: 3px solid #e93846';
                 footer.style.backgroundColor = '#e93846';
+                /* todoContainer.style.backgroundColor = '#e93846'; */
                 break;
             case 'med':
                 navbar.style.backgroundColor = 'orangered';
