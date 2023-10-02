@@ -193,7 +193,18 @@ const DOMController = (() => {
 
             const editBtn = document.createElement('button');
             editBtn.textContent = 'Editar';
-            editBtn.setAttribute('id', 'editBtn')
+            editBtn.setAttribute('id', 'editBtn');
+            switch(todo.prio){
+                case 'high':
+                    editBtn.style.backgroundColor = '#e93846'
+                    break;
+                case 'med':
+                    editBtn.style.backgroundColor = '#ff4500'
+                    break;
+                case 'low':
+                    editBtn.style.backgroundColor = '#008000'
+                    break;
+            }
             editBtn.addEventListener('click', (event) => {
                 const todoTitle = document.getElementById('todoTitle');
                 const todoDesc = document.getElementById('todoDesc');
@@ -218,9 +229,28 @@ const DOMController = (() => {
             titleSpan.addEventListener('click', () => {
                 if(divTODO.style.maxHeight){
                     divTODO.style.maxHeight = null;
+                    switch(todo.prio){
+                        case 'high':
+                            todoDiv.classList.toggle('todoActiveH');
+                            break;
+                        case 'med':
+                            todoDiv.classList.toggle('todoActiveM');
+                            break;
+                        case 'low':
+                            todoDiv.classList.toggle('todoActiveL');
+                    }
                 }else{
                     divTODO.style.maxHeight =  divTODO.scrollHeight + 'px';
-                    /* changeBGColor(todo.prio); */
+                    switch(todo.prio){
+                        case 'high':
+                            todoDiv.classList.toggle('todoActiveH');
+                            break;
+                        case 'med':
+                            todoDiv.classList.toggle('todoActiveM');
+                            break;
+                        case 'low':
+                            todoDiv.classList.toggle('todoActiveL');
+                    }
                 }
             })
         })

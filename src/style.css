@@ -134,8 +134,16 @@ body{
 }
 .todoContent{
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
+    align-items: center;
     max-width: 50%;
+}
+#editBtn{
+    border-radius: 5px;
+    border: none;
+    color: #F1FAEE;
+    font-size: 18px;
+    margin-top: 5px;
 }
 #projectName{
     font-size: 1.65rem;
@@ -167,6 +175,27 @@ body{
 }
 .todoLow:hover{
     background-color: #008000;
+}
+.todoActiveH{
+    background-color: #e93846;
+    color: #F1FAEE;
+}
+.todoActiveH>img{
+    filter: invert(92%) sepia(8%) saturate(443%) hue-rotate(66deg) brightness(110%) contrast(96%);
+}
+.todoActiveM{
+    background-color: #ff4500;
+    color: #F1FAEE;
+}
+.todoActiveM>img{
+    filter: invert(92%) sepia(8%) saturate(443%) hue-rotate(66deg) brightness(110%) contrast(96%);
+}
+.todoActiveL{
+    background-color: #008000;
+    color: #F1FAEE;
+}
+.todoActiveL>img{
+    filter: invert(92%) sepia(8%) saturate(443%) hue-rotate(66deg) brightness(110%) contrast(96%);
 }
 #addTodoContainer{
     display: none;
