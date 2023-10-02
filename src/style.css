@@ -183,14 +183,20 @@ body{
     max-width: 100%;
  }
  #addTodoContent{
-    background-color: magenta;
+    background-color: #F1FAEE;
+    border-radius: 10px;
     margin: auto;
     padding: 20px;
-    width: 80%;
+    width: 40%;
+ }
+ #projectFormTitle{
+    font-size: 2.5rem;
+    font-weight: 700;
  }
  #addForm{
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
  }
  #idBtns{
     display: flex;
@@ -199,6 +205,12 @@ body{
  }
  #idBtns > * {
     margin-left: 10px;
+ }
+ #idBtns>button{
+    background-color: #e93846;
+    color: #F1FAEE;
+    border-radius: 5px;
+    border: none;
  }
  #confEditBtn{
     display: none;
