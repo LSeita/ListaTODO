@@ -2,7 +2,6 @@ import './style.css';
 import { createProject } from './project';
 import { imageLoader} from './imageLoader';
 import {format, parse} from 'date-fns';
-import { arMA } from 'date-fns/locale';
 
 const projectController = (() => {
     const projectList = [];
@@ -10,8 +9,8 @@ const projectController = (() => {
         const a = JSON.parse(localStorage.getItem('JSONprojList'));
         console.log(a)
         for(const [key, value] of Object.entries(a)){
-            const proj = createProject(`${key}`,'high');
-            proj.addJsonTodoList(JSON.parse(`${value}`));
+            const proj = createProject(`${key}`,`${value[1]}`);
+            proj.addJsonTodoList(JSON.parse(`${value[0]}`));
             projectList.push(proj); 
         }
         console.log(projectList)
@@ -31,7 +30,7 @@ const projectController = (() => {
     const saveProjects = (projList) => {
         const JSONprojList = {};
         projList.forEach(function(proj, index){
-            JSONprojList[`${proj.getName()}`] = JSON.stringify(proj.listTodos());
+            JSONprojList[`${proj.getName()}`] = [JSON.stringify(proj.listTodos()), proj.getPrio()];
         });
         localStorage.setItem('JSONprojList', JSON.stringify(JSONprojList));
     }
