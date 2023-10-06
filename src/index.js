@@ -2,12 +2,24 @@ import './style.css';
 import { createProject } from './project';
 import { imageLoader} from './imageLoader';
 import {format, parse} from 'date-fns';
+import { arMA } from 'date-fns/locale';
 
 const projectController = (() => {
     const projectList = [];
+    if(localStorage.length > 0){    
+        const a = JSON.parse(localStorage.getItem('JSONprojList'));
+        console.log(a)
+        for(const [key, value] of Object.entries(a)){
+            const proj = createProject(`${key}`,'high');
+            proj.addJsonTodoList(JSON.parse(`${value}`));
+            projectList.push(proj); 
+        }
+        console.log(projectList)
+    }
     const addProject = (title, prio) => {
         const newProject = createProject(title, prio);
         projectList.push(newProject);
+        saveProjects(projectList);
     }
     const listProjects = () => projectList;
     const removeProject = function(proj){
@@ -16,16 +28,25 @@ const projectController = (() => {
         })
         projectList.splice(projIndex, 1)
     }
-    return {addProject, listProjects, removeProject}
+    const saveProjects = (projList) => {
+        const JSONprojList = {};
+        projList.forEach(function(proj, index){
+            JSONprojList[`${proj.getName()}`] = JSON.stringify(proj.listTodos());
+        });
+        localStorage.setItem('JSONprojList', JSON.stringify(JSONprojList));
+    }
+    return {addProject, listProjects, removeProject, saveProjects}
 })();
 
-const debug = projectController.listProjects();
+if(!localStorage.length>0){
+    const debug = projectController.listProjects();
 projectController.addProject('Meu Projeto', 'high');
-projectController.addProject('Projeto 2', 'med');
-projectController.addProject('Projeto 3', 'low');
 debug[0].addTodo('Adicionar mais svgs no site', 'E decidir logo um esquema de cores', '2023-09-22', 'high');
 debug[0].addTodo('Tarefa media', 'osakdjfsokdfj','2023-10-02', 'med');
 debug[0].addTodo('Tarefa baixa', 'osakdjfsokdfj','2023-05-15', 'low');
+localStorage.clear();
+projectController.saveProjects(projectController.listProjects())
+}
 
 const todoController = (() => {
     const todoTitle = document.getElementById('todoTitle');

@@ -6,6 +6,12 @@ export const createProject = (name, prio) => {
         const newTodo = createTodo(title, desc, date, prio);
         todoList.push(newTodo);
     }
+    const addJsonTodoList = (jsonList) => {
+       jsonList.forEach(todo => {
+            const jsonTodo = createTodo(todo.title, todo.desc, todo.date, todo.prio)
+            todoList.push(jsonTodo);
+       });
+    }
     const removeTodo = (todo) => {
         const todoIndex = todoList.findIndex(listTodo => {
              return listTodo === todo
@@ -29,6 +35,7 @@ export const createProject = (name, prio) => {
         removeTodo,
         editTodo,
         listTodos,
-        getPrio
+        getPrio,
+        addJsonTodoList
     }
 }
