@@ -6,14 +6,12 @@ import {format, parse} from 'date-fns';
 const projectController = (() => {
     const projectList = [];
     if(localStorage.length > 0){    
-        const a = JSON.parse(localStorage.getItem('JSONprojList'));
-        console.log(a)
-        for(const [key, value] of Object.entries(a)){
+        const JSONprojList = JSON.parse(localStorage.getItem('JSONprojList'));
+        for(const [key, value] of Object.entries(JSONprojList)){
             const proj = createProject(`${key}`,`${value[1]}`);
             proj.addJsonTodoList(JSON.parse(`${value[0]}`));
             projectList.push(proj); 
         }
-        console.log(projectList)
     }
     const addProject = (title, prio) => {
         const newProject = createProject(title, prio);
@@ -26,18 +24,23 @@ const projectController = (() => {
             return listProj === proj
         })
         projectList.splice(projIndex, 1)
+        const JSONprojList = JSON.parse(localStorage.getItem('JSONprojList'));
+        delete JSONprojList[proj.getName()];
+        //Updates localStorage with the removed project
+        localStorage.setItem('JSONprojList', JSON.stringify(JSONprojList));
     }
     const saveProjects = (projList) => {
         const JSONprojList = {};
         projList.forEach(function(proj, index){
             JSONprojList[`${proj.getName()}`] = [JSON.stringify(proj.listTodos()), proj.getPrio()];
         });
+        //Saves current session projects into localStorage
         localStorage.setItem('JSONprojList', JSON.stringify(JSONprojList));
     }
     return {addProject, listProjects, removeProject, saveProjects}
 })();
 
-if(!localStorage.length>0){
+if(!localStorage.length>0 || localStorage.getItem('JSONprojList') === '{}'){
     const debug = projectController.listProjects();
 projectController.addProject('Meu Projeto', 'high');
 debug[0].addTodo('Adicionar mais svgs no site', 'E decidir logo um esquema de cores', '2023-09-22', 'high');
