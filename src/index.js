@@ -16,7 +16,7 @@ const projectController = (() => {
     const addProject = (title, prio) => {
         const newProject = createProject(title, prio);
         projectList.push(newProject);
-        saveProjects(projectList);
+        saveProjects();
     }
     const listProjects = () => projectList;
     const removeProject = function(proj){
@@ -29,9 +29,9 @@ const projectController = (() => {
         //Updates localStorage with the removed project
         localStorage.setItem('JSONprojList', JSON.stringify(JSONprojList));
     }
-    const saveProjects = (projList) => {
+    const saveProjects = () => {
         const JSONprojList = {};
-        projList.forEach(function(proj, index){
+        projectList.forEach(function(proj, index){
             JSONprojList[`${proj.getName()}`] = [JSON.stringify(proj.listTodos()), proj.getPrio()];
         });
         //Saves current session projects into localStorage
@@ -43,9 +43,7 @@ const projectController = (() => {
 if(!localStorage.length>0 || localStorage.getItem('JSONprojList') === '{}'){
     const debug = projectController.listProjects();
 projectController.addProject('Meu Projeto', 'high');
-debug[0].addTodo('Adicionar mais svgs no site', 'E decidir logo um esquema de cores', '2023-09-22', 'high');
-debug[0].addTodo('Tarefa media', 'osakdjfsokdfj','2023-10-02', 'med');
-debug[0].addTodo('Tarefa baixa', 'osakdjfsokdfj','2023-05-15', 'low');
+debug[0].addTodo('Adicionar tarefas ao projeto', 'Escolha uma prioridade e define uma descrição e prazo', '2023-09-22', 'low');
 localStorage.clear();
 projectController.saveProjects(projectController.listProjects())
 }
@@ -58,20 +56,21 @@ const todoController = (() => {
 
     function removeTodo(project, todo){
         project.removeTodo(todo);
+        projectController.saveProjects();
     }
     function addTodo(project){
         project.addTodo(todoTitle.value, todoDesc.value, todoDate.value, todoPrio.value);
+        projectController.saveProjects();
         clearTodoForm();
     }
     function editTodo(project, todo){
         project.editTodo(todo, todoTitle.value, todoDesc.value, todoDate.value, todoPrio.value)
+        projectController.saveProjects();
         clearTodoForm();
     }
-    function checkAsDone(todo){
-        todo.done = true;
-    }
-    function checkAsNotDone(todo){
-        todo.done = false;
+    function markProgress(project, todo){
+        project.markProgress(todo);
+        projectController.saveProjects();
     }
     function clearTodoForm(){
         todoTitle.value = '';
@@ -79,7 +78,7 @@ const todoController = (() => {
         todoDate.value ='';
         todoPrio.value = '';
     }
-    return {removeTodo, addTodo, editTodo, checkAsDone, checkAsNotDone}
+    return {removeTodo, addTodo, editTodo, markProgress}
 })();
 
 const DOMController = (() => {
@@ -101,6 +100,8 @@ const DOMController = (() => {
     navbar.insertBefore(logo, navbar.firstChild);
 
     addProjBtn.onclick = () => displayProjForm();
+
+    displayTodos(projects[0]);
 
     projects.forEach(listProjects);
     function listProjects(project){
@@ -171,7 +172,6 @@ const DOMController = (() => {
             const dateSpan = document.createElement('span');
             const removeBtn = new Image();
             removeBtn.src = loadImage.CloseIcon();
-
             if(todo.done === true){
                 todoDiv.classList.toggle('todoDone');
                 if(prioBtn.src === loadImage.CheckCircle()){
@@ -184,11 +184,7 @@ const DOMController = (() => {
             prioBtn.classList.add('svgIcon');
             prioBtn.addEventListener('click', () => {
                 todoDiv.classList.toggle('todoDone');
-                if(todo.done === false){
-                    todoController.checkAsDone(todo);
-                }else{
-                    todoController.checkAsNotDone(todo);
-                }
+                todoController.markProgress(project, todo);
                 if(prioBtn.src === loadImage.CheckCircle()){
                     prioBtn.src = loadImage.DoneIcon();
                 }else{

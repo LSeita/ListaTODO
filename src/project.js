@@ -9,6 +9,7 @@ export const createProject = (name, prio) => {
     const addJsonTodoList = (jsonList) => {
        jsonList.forEach(todo => {
             const jsonTodo = createTodo(todo.title, todo.desc, todo.date, todo.prio)
+            jsonTodo.done = todo.done;
             todoList.push(jsonTodo);
        });
     }
@@ -24,6 +25,9 @@ export const createProject = (name, prio) => {
         todo.date = date;
         todo.prio = prio;
     }
+    const markProgress = (todo) => {
+        todo.done === false ? todo.done = true : todo.done = false;
+    }
     const listTodos = () => {
         return todoList;
     }
@@ -36,6 +40,7 @@ export const createProject = (name, prio) => {
         editTodo,
         listTodos,
         getPrio,
-        addJsonTodoList
+        addJsonTodoList,
+        markProgress
     }
 }
